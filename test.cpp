@@ -2,30 +2,61 @@
 #include <cstring>
 using namespace std;
 
-class AAA
+class base
 {
-private:
-    int num1;
 public:
-    virtual void func1() { cout<<"func1"<<endl; }
-    virtual void func2() { cout<<"func2"<<endl; }
+    base() { cout<<"base constructor"<<endl; }
+    void simplefunc() { cout<<"baseone"<<endl; }
 };
 
-class BBB: public AAA
+class middlederivedone : virtual public base
 {
-private:
-    int num2;
 public:
-    virtual void func1() { cout<<"BBB::func1"<<endl; }
-    void func3() { cout<<"func3"<<endl; }
+    middlederivedone() : base()
+    {
+        cout<<"middlederivedone constructor"<<endl;
+    }
+    void middlefuncone()
+    {
+        simplefunc();
+        cout<<"middlederivedone"<<endl;
+    }
+};
+
+class middlederivedtwo : virtual public base
+{
+public:
+    middlederivedtwo(): base()
+    {
+        cout<<"middlederivedtwo constructor"<<endl;
+    }
+    void middlefunctwo()
+    {
+        simplefunc();
+        cout<<"middlederivedtwo"<<endl;
+    }
+};
+
+class lastderived : public middlederivedone, public middlederivedtwo
+{
+public:
+    lastderived() : middlederivedone(), middlederivedtwo()
+    {
+        cout<<"lastderived constructor"<<endl;
+    }
+    void complexfunc()
+    {
+        middlefuncone();
+        middlefunctwo();
+        simplefunc();
+    }
 };
 
 int main(void)
 {
-    AAA *aptr = new AAA();
-    aptr->func1();
-    
-    BBB *bptr = new BBB();
-    bptr->func1();
+    cout<<"객체생성 전 ...."<<endl;
+    lastderived ldr;
+    cout<<"객체생성 후 ....."<<endl;
+    ldr.complexfunc();
     return 0;
 }
