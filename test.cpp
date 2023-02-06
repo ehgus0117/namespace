@@ -2,61 +2,33 @@
 #include <cstring>
 using namespace std;
 
-class base
+class point
 {
+private:
+    int xpos, ypos;
 public:
-    base() { cout<<"base constructor"<<endl; }
-    void simplefunc() { cout<<"baseone"<<endl; }
+    point(int x=0, int y=0) : xpos(x), ypos(y) {}
+    void showposition() const
+    {
+        cout<<'['<<xpos<<", "<<ypos<<']'<<endl;
+    }
+    friend point operator+(const point &pos1, const point &pos2);
 };
 
-class middlederivedone : virtual public base
+point operator+(const point &pos1, const point &pos2)
 {
-public:
-    middlederivedone() : base()
-    {
-        cout<<"middlederivedone constructor"<<endl;
-    }
-    void middlefuncone()
-    {
-        simplefunc();
-        cout<<"middlederivedone"<<endl;
-    }
-};
-
-class middlederivedtwo : virtual public base
-{
-public:
-    middlederivedtwo(): base()
-    {
-        cout<<"middlederivedtwo constructor"<<endl;
-    }
-    void middlefunctwo()
-    {
-        simplefunc();
-        cout<<"middlederivedtwo"<<endl;
-    }
-};
-
-class lastderived : public middlederivedone, public middlederivedtwo
-{
-public:
-    lastderived() : middlederivedone(), middlederivedtwo()
-    {
-        cout<<"lastderived constructor"<<endl;
-    }
-    void complexfunc()
-    {
-        middlefuncone();
-        middlefunctwo();
-        simplefunc();
-    }
-};
-
+    point pos(pos1.xpos + pos2.xpos, pos1.ypos + pos2.ypos);
+    return pos;
+}
 int main(void)
 {
-    cout<<"객체생성 전 ...."<<endl;
-    lastderived ldr;
-    cout<<"객체생성 후 ....."<<endl;
-    ldr.complexfunc();
+    point pos1(3, 4);
+    point pos2(10, 20);
+    point pos3=pos1+pos2;
+    
+    pos1.showposition();
+    pos2.showposition();
+    pos3.showposition();
     return 0;
 }
+
