@@ -1,53 +1,52 @@
 #include <iostream>
 #include <cstring>
+using namespace std;
 
-
-namespace mystd
+class first
 {
-	using namespace std;
-    class ostream
-    {
-    public:
-        void operator<< (char * str)
-        {
-            printf("%s",str);
-        }
-        void operator<< (char str)
-        {
-            printf("%c", str);
-        }
-        void operator<< (int num)
-        {
-            printf("%d", num);
-        }
-        void operator<< (double e)
-        {
-            printf("%f", e);
-        }
-        void operator<< (ostream (*fp)(ostream &ostm))
-        {
-            fp(*this);
-        }
-    };
+private:
+    int num1, num2;
+public:
+    first(int n1=0, int n2=0): num1(n1), num2(n2) {}
+    void showdata() { cout<<num1<<", "<<num2<<endl;}
+};
 
-    ostream& endl(ostream &ostm)
+class second
+{
+private:
+    int num3, num4;
+public:
+    second(int n3=0, int n4=0): num3(n3), num4(n4) {}
+    void  showdata() { cout<<num3<<", "<<num4<<endl; }
+    second& operator=(const second& ref)
     {
-        ostm<<'\n';
-        fflush(stdout);
-        return ostm;
+        cout<<"second& operator=()"<<endl;
+        num3=ref.num3;
+        num4=ref.num4;
+        return *this;
     }
-    ostream cout;
-}
+};
+
 int main(void)
 {
-    using std::cout;
-    using std::endl;
+    first fsrc(111,222);
+    first fcpy;
+    second ssrc(333,444);
+    second scpy;
+    fcpy = fsrc;
+    scpy = ssrc;
+    fcpy.showdata();
+    scpy.showdata();
     
-    cout<<"simple string";
-    cout<<endl;
-    cout<<3.14;
-    cout<<endl;
-    cout<<123;
-    endl(cout);
+    first fob1, fob2;
+    second sob1, sob2;
+    fob1=fob2=fsrc;
+    sob1=sob2=ssrc;
+    
+    fob1.showdata();
+    fob2.showdata();
+    sob1.showdata();
+    sob2.showdata();
+    
     return 0;
 }
