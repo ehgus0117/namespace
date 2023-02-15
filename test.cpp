@@ -7,46 +7,46 @@ class first
 private:
     int num1, num2;
 public:
-    first(int n1=0, int n2=0): num1(n1), num2(n2) {}
-    void showdata() { cout<<num1<<", "<<num2<<endl;}
-};
-
-class second
-{
-private:
-    int num3, num4;
-public:
-    second(int n3=0, int n4=0): num3(n3), num4(n4) {}
-    void  showdata() { cout<<num3<<", "<<num4<<endl; }
-    second& operator=(const second& ref)
+    first(int n1=0, int n2=0) : num1(n1), num2(n2) {}
+    void showdata() { cout<<num1<<", "<<num2<<endl; }
+    first& operator=(const first& ref)
     {
-        cout<<"second& operator=()"<<endl;
-        num3=ref.num3;
-        num4=ref.num4;
+        cout<<"first& operator=()"<<endl;
+        num1=ref.num1;
+        num2=ref.num2;
         return *this;
     }
 };
 
+class second: public first
+{
+private:
+    int num3, num4;
+public:
+    second(int n1, int n2, int n3, int n4): first(n1,n2), num3(n3), num4(n4) {}
+    void showdata()
+    {
+        first::showdata();
+        cout<<num3<<", "<<num4<<endl;
+    }
+    
+    
+     second& operator=(const second& ref)
+    {
+         cout<<"second& operator = ()"<<endl;
+         first::operator=(ref);
+         num3=ref.num3;
+         num4=ref.num4;
+         return *this;
+     }
+     
+};
+
 int main(void)
 {
-    first fsrc(111,222);
-    first fcpy;
-    second ssrc(333,444);
-    second scpy;
-    fcpy = fsrc;
+    second ssrc(111, 222, 333, 444);
+    second scpy(0, 0, 0, 0);
     scpy = ssrc;
-    fcpy.showdata();
     scpy.showdata();
-    
-    first fob1, fob2;
-    second sob1, sob2;
-    fob1=fob2=fsrc;
-    sob1=sob2=ssrc;
-    
-    fob1.showdata();
-    fob2.showdata();
-    sob1.showdata();
-    sob2.showdata();
-    
     return 0;
 }
