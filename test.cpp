@@ -1,52 +1,72 @@
 #include <iostream>
 #include <cstring>
+#include <cstdlib>
 using namespace std;
 
-class first
+class point
 {
 private:
-    int num1, num2;
+    int xpos, ypos;
 public:
-    first(int n1=0, int n2=0) : num1(n1), num2(n2) {}
-    void showdata() { cout<<num1<<", "<<num2<<endl; }
-    first& operator=(const first& ref)
-    {
-        cout<<"first& operator=()"<<endl;
-        num1=ref.num1;
-        num2=ref.num2;
-        return *this;
-    }
+    point(int x=0, int y=0): xpos(x), ypos(y) {}
+    friend ostream& operator<<(ostream& os, const point& pos);
 };
 
-class second: public first
+ostream& operator<<(ostream& os, const point& pos)
+{
+    os<<'['<<pos.xpos<<", "<<pos.ypos<<']'<<endl;
+    return os;
+}
+typedef point* POINT_PTR;
+
+class boundcheckpointArray
 {
 private:
-    int num3, num4;
+    POINT_PTR arr;
+    int arrlen;
+    boundcheckpointArray(const boundcheckpointArray& arr) {}
+    boundcheckpointArray& operator=(const boundcheckpointArray& arr){ return * this; }
 public:
-    second(int n1, int n2, int n3, int n4): first(n1,n2), num3(n3), num4(n4) {}
-    void showdata()
+    boundcheckpointArray(int len): arrlen(len)
     {
-        first::showdata();
-        cout<<num3<<", "<<num4<<endl;
+        arr = new POINT_PTR[len];
+    }
+    POINT_PTR& operator[] (int idx)
+    {
+        if(idx<0 || idx>=arrlen)
+        {
+            cout<<"array index out of bound exception"<<endl;
+            exit(1);
+        }
+        return arr[idx];
     }
     
-    
-     second& operator=(const second& ref)
+    POINT_PTR operator[] (int idx) const
     {
-         cout<<"second& operator = ()"<<endl;
-         first::operator=(ref);
-         num3=ref.num3;
-         num4=ref.num4;
-         return *this;
-     }
-     
+        if(idx<0 || idx>=arrlen)
+        {
+            cout<<"arrat index out of bound exception"<<endl;
+            exit(1);
+        }
+        return arr[idx];
+    }
+    int getarrlen() const { return arrlen; }
+    ~boundcheckpointArray() { delete []arr; }
 };
+
 
 int main(void)
 {
-    second ssrc(111, 222, 333, 444);
-    second scpy(0, 0, 0, 0);
-    scpy = ssrc;
-    scpy.showdata();
+    boundcheckpointArray arr(3);
+    arr[0] = new point(3, 4);
+    arr[1] = new point(5, 6);
+    arr[2] = new point(7, 8);
+    
+    for(int i=0; i<arr.getarrlen(); i++)
+        cout<<*(arr[i]);
+    delete arr[0];
+    delete arr[1];
+    delete arr[2];
+    
     return 0;
 }
