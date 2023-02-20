@@ -10,6 +10,7 @@ private:
 public:
     point(int x=0, int y=0): xpos(x), ypos(y) {}
     friend ostream& operator<<(ostream& os, const point& pos);
+    friend ostream& operator<<(ostream& os, const point* pos);
 };
 
 ostream& operator<<(ostream& os, const point& pos)
@@ -17,6 +18,13 @@ ostream& operator<<(ostream& os, const point& pos)
     os<<'['<<pos.xpos<<", "<<pos.ypos<<']'<<endl;
     return os;
 }
+
+ostream& operator<<(ostream& os, const point* pos)
+{
+    os<<'['<<pos->xpos<<", "<<pos->ypos<<']'<<endl;
+    return os;
+}
+
 typedef point* POINT_PTR;
 
 class boundcheckpointArray
@@ -63,7 +71,7 @@ int main(void)
     arr[2] = new point(7, 8);
     
     for(int i=0; i<arr.getarrlen(); i++)
-        cout<<*(arr[i]);
+        cout<<arr[i];
     delete arr[0];
     delete arr[1];
     delete arr[2];
