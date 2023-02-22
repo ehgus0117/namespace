@@ -8,65 +8,61 @@ class point
 private:
     int xpos, ypos;
 public:
-    point(int x=0, int y=0): xpos(x), ypos(y) {}
+    point(int x=0, int y=0): xpos(x), ypos(y)
+    {
+        cout<<"point 객체 생성"<<endl;
+    }
+    ~point()
+    {
+        cout<<"point 객체 소멸"<<endl;
+    }
+    void setpos(int x, int y)
+    {
+        xpos = x;
+        ypos = y;
+    }
     friend ostream& operator<<(ostream& os, const point& pos);
 };
-
 ostream& operator<<(ostream& os, const point& pos)
 {
     os<<'['<<pos.xpos<<", "<<pos.ypos<<']'<<endl;
     return os;
 }
-typedef point* POINT_PTR;
 
-class boundcheckpointArray
+class smartptr
 {
 private:
-    POINT_PTR * arr;
-    int arrlen;
-    boundcheckpointArray(const boundcheckpointArray& arr) {}
-    boundcheckpointArray& operator=(const boundcheckpointArray& arr){ return * this; }
+    point * posptr;
 public:
-    boundcheckpointArray(int len): arrlen(len)
+    smartptr(point * ptr) : posptr(ptr) {}
+    point & operator*() const
     {
-        arr = new POINT_PTR[len];
+        return *posptr;
     }
-    POINT_PTR& operator[] (int idx)
+    point* operator->() const
     {
-        if(idx<0 || idx>=arrlen)
-        {
-            cout<<"array index out of bound exception"<<endl;
-            exit(1);
-        }
-        return arr[idx];
+        return posptr;
     }
-    
-    POINT_PTR operator[] (int idx) const
+    ~smartptr()
     {
-        if(idx<0 || idx>=arrlen)
-        {
-            cout<<"arrat index out of bound exception"<<endl;
-            exit(1);
-        }
-        return arr[idx];
+        delete posptr;
     }
-    int getarrlen() const { return arrlen; }
-    ~boundcheckpointArray() { delete []arr; }
 };
-
 
 int main(void)
 {
-    boundcheckpointArray arr(3);
-    arr[0] = new point(3, 4);
-    arr[1] = new point(5, 6);
-    arr[2] = new point(7, 8);
+    smartptr sptr1(new point(1,2));
+    smartptr sptr2(new point(2,3));
+    smartptr sptr3(new point(4,5));
+    cout<<*sptr1;
+    cout<<*sptr2;
+    cout<<*sptr3;
     
-    for(int i=0; i<arr.getarrlen(); i++)
-        cout<<*(arr[i]);
-    delete arr[0];
-    delete arr[1];
-    delete arr[2];
-    
+    sptr1->setpos(10,20);
+    sptr2->setpos(30,40);
+    sptr3->setpos(50, 60);
+    cout<<*sptr1;
+    cout<<*sptr2;
+    cout<<*sptr3;
     return 0;
 }
