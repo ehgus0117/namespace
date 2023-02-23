@@ -3,66 +3,92 @@
 #include <cstdlib>
 using namespace std;
 
-class point
+class sortrule
 {
-private:
-    int xpos, ypos;
 public:
-    point(int x=0, int y=0): xpos(x), ypos(y)
-    {
-        cout<<"point 객체 생성"<<endl;
-    }
-    ~point()
-    {
-        cout<<"point 객체 소멸"<<endl;
-    }
-    void setpos(int x, int y)
-    {
-        xpos = x;
-        ypos = y;
-    }
-    friend ostream& operator<<(ostream& os, const point& pos);
+    virtual bool operator()(int num1, int num2) const =0;
 };
-ostream& operator<<(ostream& os, const point& pos)
-{
-    os<<'['<<pos.xpos<<", "<<pos.ypos<<']'<<endl;
-    return os;
-}
 
-class smartptr
+class ascendingsort : public sortrule
+{
+public:
+    bool operator()(int num1, int num2) const
+    {
+        if(num1>num2)
+            return true;
+        else
+            return false;
+    }
+};
+
+class descendingsort : public sortrule
+{
+public:
+    bool operator()(int num1, int num2) const
+    {
+        if(num1<num2)
+            return true;
+        else
+            return false;
+    }
+};
+
+class datastorage
 {
 private:
-    point * posptr;
+    int * arr;
+    int idx;
+    const int MAX_LEN;
 public:
-    smartptr(point * ptr) : posptr(ptr) {}
-    point & operator*() const
+    datastorage(int arrlen): idx(0), MAX_LEN(arrlen)
     {
-        return *posptr;
+        arr = new int[MAX_LEN];
     }
-    point* operator->() const
+    void adddata(int num)
     {
-        return posptr;
+        if(MAX_LEN<=idx)
+        {
+            cout<<"더 이상 저장이 불가능합니다."<<endl;
+            return;
+        }
+        arr[idx++]=num;
     }
-    ~smartptr()
+    void showalldata()
     {
-        delete posptr;
+        for(int i=0; i<idx; i++)
+            cout<<arr[i]<<' ';
+        cout<<endl;
+    }
+    void sortdat(const sortrule& functor)
+    {
+        for(int i=0; i<(idx -1); i++)
+        {
+            for(int j=0; j<(idx -1); j++)
+            {
+                if(functor(arr[j], arr[j+1]))
+                {
+                    int temp = arr[j];
+                    arr[j]=arr[j+1];
+                    arr[j+1]=temp;
+                }
+            }
+        }
     }
 };
 
 int main(void)
 {
-    smartptr sptr1(new point(1,2));
-    smartptr sptr2(new point(2,3));
-    smartptr sptr3(new point(4,5));
-    cout<<*sptr1;
-    cout<<*sptr2;
-    cout<<*sptr3;
+    datastorage storage(5);
+    storage.adddata(40);
+    storage.adddata(30);
+    storage.adddata(50);
+    storage.adddata(20);
+    storage.adddata(10);
     
-    sptr1->setpos(10,20);
-    sptr2->setpos(30,40);
-    sptr3->setpos(50, 60);
-    cout<<*sptr1;
-    cout<<*sptr2;
-    cout<<*sptr3;
+    storage.sortdat(ascendingsort());
+    storage.showalldata();
+    
+    storage.sortdat(descendingsort());
+    storage.showalldata();
     return 0;
 }
