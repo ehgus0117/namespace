@@ -8,11 +8,12 @@
 #ifndef AccountHandler_hpp
 #define AccountHandler_hpp
 #include "Account.hpp"
+#include "AccountArray.hpp"
 
 class AccountHandler
 {
 private:
-    Account * accArr[100];
+    BoundCheckAccountPtrArray accArr;
     int accNum;
 public:
     AccountHandler();
