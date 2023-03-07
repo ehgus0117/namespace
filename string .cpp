@@ -91,7 +91,7 @@ ostream& operator<<(ostream& os, const String& s)
     return os;
 }
 
-istream& operator>>(istream& is, const String s)
+istream& operator>>(istream& is, String& s)
 {
     char str[100];
     is>>str;
