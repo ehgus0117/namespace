@@ -8,13 +8,14 @@
 #ifndef NormalAccount_h
 #define NormalAccount_h
 #include "Account.hpp"
+#include "String.hpp"
 
 class NormalAccount : public Account
 {
 private:
     int interRate;
 public:
-    NormalAccount(int ID, int money, char * name, int rate) : Account(ID, money, name), interRate(rate) {}
+    NormalAccount(int ID, int money, String name, int rate) : Account(ID, money, name), interRate(rate) {}
     virtual void Deposit(int money)
     {
         Account::Deposit(money);
