@@ -3,18 +3,28 @@
 #include <cstdlib>
 using namespace std;
 
-template <class T1, class T2>
-void showdata(double num)
+template <typename T>
+class Point
 {
-    cout<<(T1)num<<", "<<(T2)num<<endl;
-}
+private:
+    T xpos, ypos;
+public:
+    Point(T x=0, T y=0) : xpos(x), ypos(y) {}
+    void showposition() const
+    {
+        cout<<'['<<xpos<<", "<<ypos<<']'<<endl;
+    }
+};
 
 int main(void)
 {
-    showdata<char, int>(65);
-    showdata<char, int>(67);
-    showdata<char, double>(68.9);
-    showdata<short, double>(69.2);
-    showdata<short, double>(70.4);
+    Point<int> pos1(3,4);
+    pos1.showposition();
+    
+    Point<double> pos2(2.4, 3.6);
+    pos2.showposition();
+    
+    Point<char> pos3('P', 'F');
+    pos3.showposition();
     return 0;
 }
