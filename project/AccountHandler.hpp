@@ -9,11 +9,12 @@
 #define AccountHandler_hpp
 #include "Account.hpp"
 #include "AccountArray.hpp"
+#include "BounbCheckArray.h"
 
 class AccountHandler
 {
 private:
-    BoundCheckAccountPtrArray accArr;
+    BounbCheckArray<Account*> accArr;
     int accNum;
 public:
     AccountHandler();
