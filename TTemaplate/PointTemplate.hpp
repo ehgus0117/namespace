@@ -1,7 +1,12 @@
-#include <iostream>
-#include <string>
-#include <cstdlib>
-using namespace std;
+//
+//  PointTemplate.h
+//  code
+//
+//  Created by 김도현 on 2023/03/23.
+//
+
+#ifndef PointTemplate_h
+#define PointTemplate_h
 
 template <typename T>
 class point
@@ -21,3 +26,6 @@ void point<T>::showposition()const
 {
     cout<<'['<<xpos<<", "<<ypos<<']'<<endl;
 }
+
+
+#endif /* PointTemplate_h */
