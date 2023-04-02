@@ -8,7 +8,6 @@
 #ifndef AccountHandler_hpp
 #define AccountHandler_hpp
 #include "Account.hpp"
-#include "AccountArray.hpp"
 #include "BounbCheckArray.h"
 
 class AccountHandler

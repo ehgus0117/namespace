@@ -8,7 +8,7 @@
 #ifndef String_hpp
 #define String_hpp
 
-#include "BankingCommonDec1.h"
+#include "BankingCommonDecl.h"
 
 
 class String

@@ -1,23 +1,41 @@
 #include <iostream>
 #include <string>
 #include <cstdlib>
+#include <cmath>
+#include <new>
 using namespace std;
 
-template <typename T>
-class point
+class sosimple
 {
-private:
-    T xpos, ypos;
 public:
-    point(T x=0, T y=0);
-    void showposition() const;
+    virtual void showsimpleinfo()
+    {
+        cout<<"sosimple base calss"<<endl;
+    }
 };
 
-template <typename T>
-point<T>::point(T x, T y) : xpos(x), ypos(y) {}
-
-template <typename T>
-void point<T>::showposition()const
+class socomplex : public sosimple
 {
-    cout<<'['<<xpos<<", "<<ypos<<']'<<endl;
+public:
+    void showsimpleinfo()
+    {
+        cout<<"socomplex derived class"<<endl;
+    }
+};
+
+int main(void)
+{
+    sosimple simobj;
+    sosimple& ref = simobj;
+    
+    try
+    {
+        socomplex& comref = dynamic_cast<socomplex&>(ref);
+        comref.showsimpleinfo();
+    }
+    catch(bad_cast expt)
+    {
+        cout<<expt.what()<<endl;
+    }
+    return 0;
 }

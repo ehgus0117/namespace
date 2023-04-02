@@ -6,7 +6,7 @@
 //
 
 #include "AccountArray.hpp"
-#include "BankingCommonDec1.h"
+#include "BankingCommonDecl.h"
 
 BoundCheckAccountPtrArray::BoundCheckAccountPtrArray(int len): arrlen(len)
 {
